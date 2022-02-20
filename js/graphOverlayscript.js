@@ -151,7 +151,7 @@ function myFunction() {
       sliderTint.setAttribute("class", "slider");
       sliderTint.style.bottom = "10px";
       sliderTint.oninput = function () {
-        document.querySelector(".foreGraph img").style.filter = `grayscale(100%) brightness(50%) sepia(${sliderTint.value}%) saturate(10) contrast(150%) hue-rotate(-50deg) invert(0)`;
+        document.querySelector(".foreGraph img").style.filter = `grayscale(100%) brightness(40%) sepia(${sliderTint.value}%) saturate(6) contrast(100%) hue-rotate(-50deg) invert(0)`;
       };
 
       let openCropImageModalBtn = document.querySelector("#openCropImageModalBtn");
@@ -181,7 +181,7 @@ function myFunction() {
           sliderTint.value = "100";
           img.classList.remove("no-tint");
           img.style.filter =
-            "grayscale(100%) brightness(50%) sepia(100%) saturate(10) contrast(150%) hue-rotate(-50deg) invert(0)";
+            "grayscale(100%) brightness(40%) sepia(100%) saturate(6) contrast(100%) hue-rotate(-50deg) invert(0)";
           toggleTintBtn.setAttribute("value", "Remove Tint");
         } else {
           div3.style.display = "none";
