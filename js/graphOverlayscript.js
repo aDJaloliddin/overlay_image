@@ -100,6 +100,8 @@ function myFunction() {
     }
     // loading image
     image.src = URL.createObjectURL(file);
+    image.classList.add("no-tint");
+    image.style.filter = "grayscale(0)";
 
     // check if element has file-1 id
     if (element.id === "file-1") {
@@ -109,34 +111,47 @@ function myFunction() {
       // if not image is foreground graph
       resizeBox.classList.add("foreGraph");
 
-      let slider = document.querySelector("#opacity");
-      if (!slider) {
-        slider = document.createElement("input");
-      }
-      slider.setAttribute("type", "range");
-      slider.setAttribute("min", 0);
-      slider.setAttribute("max", 100);
-      slider.setAttribute("id", "opacity");
-      slider.setAttribute("value", "100");
-      slider.setAttribute("class", "slider");
-      slider.style.bottom = "10px";
-      slider.oninput = function () {
-        image.style.opacity = (this.value / 100).toString();
-      };
-
-      let sliderOpacity = document.querySelector("#rotate");
+      let sliderOpacity = document.querySelector("#opacity");
       if (!sliderOpacity) {
         sliderOpacity = document.createElement("input");
       }
       sliderOpacity.setAttribute("type", "range");
       sliderOpacity.setAttribute("min", 0);
-      sliderOpacity.setAttribute("max", 360);
-      sliderOpacity.setAttribute("id", "rotate");
-      sliderOpacity.setAttribute("value", "0");
+      sliderOpacity.setAttribute("max", 100);
+      sliderOpacity.setAttribute("id", "opacity");
+      sliderOpacity.setAttribute("value", "100");
       sliderOpacity.setAttribute("class", "slider");
-      sliderOpacity.style.bottom = "10px";
       sliderOpacity.oninput = function () {
+        image.style.opacity = (this.value / 100).toString();
+      };
+
+      let sliderRotate = document.querySelector("#rotate");
+      if (!sliderRotate) {
+        sliderRotate = document.createElement("input");
+      }
+      sliderRotate.setAttribute("type", "range");
+      sliderRotate.setAttribute("min", 0);
+      sliderRotate.setAttribute("max", 360);
+      sliderRotate.setAttribute("id", "rotate");
+      sliderRotate.setAttribute("value", "0");
+      sliderRotate.setAttribute("class", "slider");
+      sliderRotate.oninput = function () {
         resizeBox.style.transform = "rotate(" + this.value + "deg)";
+      };
+
+      let sliderTint = document.querySelector("#changeTint");
+      if (!sliderTint) {
+        sliderTint = document.createElement("input");
+      }
+      sliderTint.setAttribute("type", "range");
+      sliderTint.setAttribute("min", 0);
+      sliderTint.setAttribute("max", 100);
+      sliderTint.setAttribute("id", "tint");
+      sliderTint.setAttribute("value", "100");
+      sliderTint.setAttribute("class", "slider");
+      sliderTint.style.bottom = "10px";
+      sliderTint.oninput = function () {
+        document.querySelector(".foreGraph img").style.filter = `grayscale(100%) brightness(50%) sepia(${sliderTint.value}%) saturate(10) contrast(150%) hue-rotate(-50deg) invert(0)`;
       };
 
       let openCropImageModalBtn = document.querySelector("#openCropImageModalBtn");
@@ -149,6 +164,34 @@ function myFunction() {
       openCropImageModalBtn.setAttribute("class", "open-modal-btn");
       openCropImageModalBtn.setAttribute("onclick", "openCropImageModal()");
 
+      let toggleTintBtn = document.querySelector(
+        "#toggleTintBtn"
+      );
+      if (!toggleTintBtn) {
+        toggleTintBtn = document.createElement("input");
+      }
+      toggleTintBtn.setAttribute("type", "button");
+      toggleTintBtn.setAttribute("id", "toggleTintBtn");
+      toggleTintBtn.setAttribute("value", "Add Tint");
+      toggleTintBtn.setAttribute("class", "toggle-tint-btn");
+      toggleTintBtn.onclick = function () {
+        const img = document.querySelector(".foreGraph img");
+        if (img.classList.contains("no-tint")) {
+          div3.style.display = "flex";
+          sliderTint.value = "100";
+          img.classList.remove("no-tint");
+          img.style.filter =
+            "grayscale(100%) brightness(50%) sepia(100%) saturate(10) contrast(150%) hue-rotate(-50deg) invert(0)";
+          toggleTintBtn.setAttribute("value", "Remove Tint");
+        } else {
+          div3.style.display = "none";
+          img.classList.add('no-tint');
+          img.style.filter = "grayscale(0)";
+          toggleTintBtn.setAttribute("value", "Add Tint");
+        }
+      }
+
+      
       // Old version
       // document
       //   .getElementsByTagName("body")[0]
@@ -159,14 +202,44 @@ function myFunction() {
       // document
       //   .getElementsByTagName("body")[0]
       //   .insertAdjacentElement("beforeend", openCropImageModalBtn );
-      
+
+      const div1 = document.createElement('div');
+      div1.classList.add("flex-box-vertical")
+      const label1 = document.createElement('label');
+      label1.textContent = 'Opacity';
+      label1.setAttribute("for", "opacity");
+      div1.appendChild(sliderOpacity)
+      div1.appendChild(label1);
+
+      const div2 = document.createElement('div');
+      div2.classList.add("flex-box-vertical")
+      const label2 = document.createElement('label2');
+      label2.textContent = 'Rotate';
+      label2.setAttribute("for", "rotate");
+      div2.appendChild(sliderRotate)
+      div2.appendChild(label2);
+
+      const div3 = document.createElement("div");
+      div3.classList.add("flex-box-vertical");
+      div3.style.display = "none";
+      const label3 = document.createElement("label3");
+      label3.textContent = "Tint";
+      label3.setAttribute("for", "tint");
+      div3.appendChild(sliderTint);
+      div3.appendChild(label3);
       // New version
       document
         .querySelector(".control-actions-list")
-        .appendChild(slider);
+        .appendChild(div1);
       document
         .querySelector(".control-actions-list")
-        .appendChild(sliderOpacity);
+        .appendChild(div2);
+      document
+        .querySelector(".control-actions-list")
+        .appendChild(div3);
+      document
+        .querySelector(".control-actions-list")
+        .appendChild(toggleTintBtn);
       document
         .querySelector(".control-actions-list")
         .appendChild(openCropImageModalBtn);
@@ -176,4 +249,5 @@ function myFunction() {
       .querySelector(".app .main")
       .insertAdjacentElement("beforeend", resizeBox);
   }
+
 };

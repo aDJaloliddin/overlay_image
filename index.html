@@ -15,7 +15,7 @@
 <body onload="myFunction()">
   <a href="../">Home</a>
   <div class="app" style="display: flex">
-    <div class="header" style="width: 10vw;">
+    <div class="header">
       <div class="loadBtns">
         <div class="btn-group">
           <label for="file-1">
@@ -29,8 +29,8 @@
               Image</button>
           </label>
           <input type="file" id="file-2" name="files[]" style="display: none;" />
-          <div style="font-family: arial, helvetica, sans-serif; font-size: 12px;">
-            <br><br>
+          <br><br>
+          <div style="background-color:rgb(241, 240, 240);font-family: arial, helvetica, sans-serif; font-size: 12px;padding: 1rem; width: 50%;">
             <b>Move:</b> Double-click image/left mouse button<br><br>
             <b>Resize:</b> Click and drag 2 lines in lower right corner of image<br><br>
             <b>Opacity:</b> Top slider<br><br>
@@ -40,7 +40,7 @@
       </div>
 
     </div>
-    <div class="main js-images-container" style="width: 90vw;"></div>
+    <div class="main js-images-container"></div>
   </div>
   <!-- Crope image model -->
   <div id="cropImageModal" class="modal">
