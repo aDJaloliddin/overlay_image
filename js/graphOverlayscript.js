@@ -3,7 +3,7 @@ function myFunction() {
   // get load btns
   const loadBtns = document.querySelectorAll('.loadBtns input[type="file"]');
   let dragTarget;
-  let draggable=false;
+  let draggable = false;
   loadBtns.forEach((el, i) => {
     // handle file load event
     el.addEventListener("change", function (evt) {
@@ -17,7 +17,7 @@ function myFunction() {
     dragTarget = this;
 
     // if draggable is off or target doesn't foreGraph class then stop
-    if(!draggable || !dragTarget.classList.contains("foreGraph")) return false;
+    if (!draggable || !dragTarget.classList.contains("foreGraph")) return false;
 
     // else continue
     // set initial shift of the element relative to the pointer
@@ -48,15 +48,15 @@ function myFunction() {
     document.addEventListener("mousemove", onMouseMove);
 
     // (4) drop the ball, remove unneeded handlers
-    dragTarget.onmouseup = function() {
+    dragTarget.onmouseup = function () {
       document.removeEventListener("mousemove", onMouseMove);
       dragTarget.onmouseup = null;
-      draggable=false;
+      draggable = false;
     };
     // he browser has its own Drag’n’Drop for images and some other elements that runs
     //  automatically and conflicts with ours
     // To disable it:
-    dragTarget.ondragstart = function() {
+    dragTarget.ondragstart = function () {
       return false;
     };
   }
@@ -69,7 +69,7 @@ function myFunction() {
       let item = items[index];
       if (item.kind === "file") {
         const file = item.getAsFile();
-        let elem = document.querySelector('#file-2');
+        let elem = document.querySelector("#file-2");
         changeEventHandler(file, elem, 1);
       }
     }
@@ -139,22 +139,26 @@ function myFunction() {
         resizeBox.style.transform = "rotate(" + this.value + "deg)";
       };
 
-      let sliderTint = document.querySelector("#changeTint");
+      let sliderTint = document.querySelector("#slider-tint");
       if (!sliderTint) {
         sliderTint = document.createElement("input");
       }
       sliderTint.setAttribute("type", "range");
       sliderTint.setAttribute("min", 0);
       sliderTint.setAttribute("max", 100);
-      sliderTint.setAttribute("id", "tint");
+      sliderTint.setAttribute("id", "slider-tint");
       sliderTint.setAttribute("value", "100");
       sliderTint.setAttribute("class", "slider");
       sliderTint.style.bottom = "10px";
       sliderTint.oninput = function () {
-        document.querySelector(".foreGraph img").style.filter = `grayscale(100%) brightness(40%) sepia(${sliderTint.value}%) saturate(6) contrast(100%) hue-rotate(-50deg) invert(0)`;
+        document.querySelector(
+          ".foreGraph img"
+        ).style.filter = `grayscale(100%) brightness(40%) sepia(${sliderTint.value}%) saturate(6) contrast(100%) hue-rotate(-50deg) invert(0)`;
       };
 
-      let openCropImageModalBtn = document.querySelector("#openCropImageModalBtn");
+      let openCropImageModalBtn = document.querySelector(
+        "#openCropImageModalBtn"
+      );
       if (!openCropImageModalBtn) {
         openCropImageModalBtn = document.createElement("input");
       }
@@ -164,9 +168,7 @@ function myFunction() {
       openCropImageModalBtn.setAttribute("class", "open-modal-btn");
       openCropImageModalBtn.setAttribute("onclick", "openCropImageModal()");
 
-      let toggleTintBtn = document.querySelector(
-        "#toggleTintBtn"
-      );
+      let toggleTintBtn = document.querySelector("#toggleTintBtn");
       if (!toggleTintBtn) {
         toggleTintBtn = document.createElement("input");
       }
@@ -177,21 +179,20 @@ function myFunction() {
       toggleTintBtn.onclick = function () {
         const img = document.querySelector(".foreGraph img");
         if (img.classList.contains("no-tint")) {
-          div3.style.display = "flex";
+          divForTint.style.display = "flex";
           sliderTint.value = "100";
           img.classList.remove("no-tint");
           img.style.filter =
             "grayscale(100%) brightness(40%) sepia(100%) saturate(6) contrast(100%) hue-rotate(-50deg) invert(0)";
           toggleTintBtn.setAttribute("value", "Remove Tint");
         } else {
-          div3.style.display = "none";
-          img.classList.add('no-tint');
+          divForTint.style.display = "none";
+          img.classList.add("no-tint");
           img.style.filter = "grayscale(0)";
           toggleTintBtn.setAttribute("value", "Add Tint");
         }
-      }
+      };
 
-      
       // Old version
       // document
       //   .getElementsByTagName("body")[0]
@@ -203,40 +204,55 @@ function myFunction() {
       //   .getElementsByTagName("body")[0]
       //   .insertAdjacentElement("beforeend", openCropImageModalBtn );
 
-      const div1 = document.createElement('div');
-      div1.classList.add("flex-box-vertical")
-      const label1 = document.createElement('label');
-      label1.textContent = 'Opacity';
-      label1.setAttribute("for", "opacity");
-      div1.appendChild(sliderOpacity)
-      div1.appendChild(label1);
+      let divForOpacity = document.querySelector("#opacity-wrapper");
+      let labelForOpacity = document.querySelector("#label-opacity");
+      if (!divForOpacity) {
+        divForOpacity = document.createElement("div");
+        labelForOpacity = document.createElement("label");
+      }
+      labelForOpacity.textContent = "Opacity";
+      labelForOpacity.setAttribute("id", "label-opacity");
+      labelForOpacity.setAttribute("for", "opacity");
+      divForOpacity.setAttribute("id", "opacity-wrapper");
+      divForOpacity.classList.add("flex-box-vertical");
+      divForOpacity.appendChild(sliderOpacity);
+      divForOpacity.appendChild(labelForOpacity);
 
-      const div2 = document.createElement('div');
-      div2.classList.add("flex-box-vertical")
-      const label2 = document.createElement('label2');
-      label2.textContent = 'Rotate';
-      label2.setAttribute("for", "rotate");
-      div2.appendChild(sliderRotate)
-      div2.appendChild(label2);
+      let divForRotate = document.querySelector("#rotate-wrapper");
+      let labelForRotate = document.querySelector("#label-rotate");
+      if (!divForRotate) {
+        divForRotate = document.createElement("div");
+        labelForRotate = document.createElement("label");
+      }
+      labelForRotate.textContent = "Rotate";
+      labelForRotate.setAttribute("id", "label-rotate");
+      labelForRotate.setAttribute("for", "rotate");
+      divForRotate.setAttribute("id", "rotate-wrapper");
+      divForRotate.classList.add("flex-box-vertical");
+      divForRotate.appendChild(sliderRotate);
+      divForRotate.appendChild(labelForRotate);
 
-      const div3 = document.createElement("div");
-      div3.classList.add("flex-box-vertical");
-      div3.style.display = "none";
-      const label3 = document.createElement("label3");
-      label3.textContent = "Tint";
-      label3.setAttribute("for", "tint");
-      div3.appendChild(sliderTint);
-      div3.appendChild(label3);
+      let divForTint = document.querySelector("#tint-wrapper");
+      let labelForTint = document.querySelector("#label-tint");
+      if (!divForTint) {
+        divForTint = document.createElement("div");
+        labelForTint = document.createElement("label");
+      }
+      labelForTint.textContent = "Tint";
+      labelForTint.setAttribute("for", "tint");
+      labelForTint.setAttribute("id", "label-tint");
+      divForTint.setAttribute("id", "tint-wrapper");
+      divForTint.classList.add("flex-box-vertical");
+      divForTint.style.display = "none";
+      divForTint.appendChild(sliderTint);
+      divForTint.appendChild(labelForTint);
+
       // New version
       document
         .querySelector(".control-actions-list")
-        .appendChild(div1);
-      document
-        .querySelector(".control-actions-list")
-        .appendChild(div2);
-      document
-        .querySelector(".control-actions-list")
-        .appendChild(div3);
+        .appendChild(divForOpacity);
+      document.querySelector(".control-actions-list").appendChild(divForRotate);
+      document.querySelector(".control-actions-list").appendChild(divForTint);
       document
         .querySelector(".control-actions-list")
         .appendChild(toggleTintBtn);
@@ -249,5 +265,4 @@ function myFunction() {
       .querySelector(".app .main")
       .insertAdjacentElement("beforeend", resizeBox);
   }
-
-};
+}
